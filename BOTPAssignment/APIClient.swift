@@ -60,7 +60,6 @@ final class APIClient {
         task.resume()
     }
     
-    // Git testing
     func fetchNeoDetails(neoID: String, completion: @escaping (Result<Neo, Error>) -> Void) {
         var components = URLComponents(string: "https://api.nasa.gov/neo/rest/v1/neo/\(neoID)")!
         components.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
