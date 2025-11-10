@@ -36,6 +36,7 @@ final class APIClient {
         
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
+                print("Failure:",error)
                 completion(.failure(error))
                 return
             }
@@ -46,17 +47,20 @@ final class APIClient {
             do {
                 let decoder = JSONDecoder()
                 let feed = try decoder.decode(NeoFeedResponse.self, from: data)
+                print("resopunseValue:",feed)
                 // flatten dictionary into an array sorted by date (optional)
                 let neos = feed.nearEarthObjects.values.flatMap { $0 }
+                
                 completion(.success(neos))
             } catch {
+                print("FailureCatch",error.localizedDescription)
                 completion(.failure(error))
             }
         }
         task.resume()
     }
     
-    
+    // Git testing
     func fetchNeoDetails(neoID: String, completion: @escaping (Result<Neo, Error>) -> Void) {
         var components = URLComponents(string: "https://api.nasa.gov/neo/rest/v1/neo/\(neoID)")!
         components.queryItems = [URLQueryItem(name: "api_key", value: apiKey)]
